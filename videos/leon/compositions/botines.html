@@ -1,0 +1,45 @@
+<template>
+  <style>
+      #root { position: absolute; inset: 0; overflow: hidden; background: #0b0908; font-family: "Inter", sans-serif; color: #fff; }
+      .cam { position: absolute; inset: 0; }
+      .plate { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; }
+      .label { position: absolute; left: 120px; width: 768px; top: 318px; text-align: center; }
+      .label-in { display: inline-block; padding: 14px 28px; border-radius: 999px; background: rgba(10, 8, 6, 0.62);
+        font-weight: 700; font-size: 34px; letter-spacing: 0.16em; text-transform: uppercase; }
+      .label-in .dot { display: inline-block; width: 14px; height: 14px; border-radius: 50%; background: #ffb547; margin-right: 16px; vertical-align: 4px; }
+      .label-in .w { display: inline-block; }
+      .credit { position: absolute; left: 120px; top: 1262px; font-size: 22px; font-weight: 400; color: rgba(255,255,255,0.72);
+        text-shadow: 0 1px 6px rgba(0,0,0,0.9); }
+      .hero { position: absolute; left: 120px; width: 768px; text-align: center; font-family: "League Gothic", sans-serif;
+        font-weight: 400; line-height: 0.9; letter-spacing: 0.02em; text-shadow: 0 8px 50px rgba(0,0,0,0.65), 0 2px 8px rgba(0,0,0,0.5); }
+      .hero .ch { display: inline-block; }
+      .kicker { position: absolute; left: 120px; width: 768px; text-align: center; font-weight: 700; font-size: 38px;
+        letter-spacing: 0.5em; text-indent: 0.5em; text-shadow: 0 2px 16px rgba(0,0,0,0.8); }
+      .kicker .bar { display: block; width: 120px; height: 8px; margin: 0 auto 26px; background: #ffb547; border-radius: 4px; }
+
+      #bo-title { top: 440px; font-size: 360px; }
+      #bo-kicker { top: 790px; }
+  </style>
+  <div id="root" data-composition-id="botines" data-width="1080" data-height="1920"
+    data-composition-variables='[{"id":"bo-label","type":"string","label":"Etiqueta","default":"Casa Botines · Gaudí"}]'>
+    <div id="bo-cam" class="cam" data-layout-allow-overflow>
+      <img id="bo-img" class="clip plate" src="assets/botines.jpg" data-start="0" data-duration="3" data-track-index="0" alt="Casa Botines de noche, León" />
+    </div>
+    <div id="bo-label" class="clip label" data-start="0.1" data-duration="2.9" data-track-index="1">
+      <span id="bo-label-in" class="label-in"><span class="dot"></span>Casa Botines · Gaudí</span>
+    </div>
+    <h1 id="bo-title" class="clip hero" data-start="0.55" data-duration="2.45" data-track-index="2"><span id="bo-c1" class="ch">L</span><span id="bo-c2" class="ch">E</span><span id="bo-c3" class="ch">Ó</span><span id="bo-c4" class="ch">N</span></h1>
+    <div id="bo-kicker" class="clip kicker" data-start="0.9" data-duration="2.1" data-track-index="3"><span id="bo-kicker-in"><span class="bar"></span>ESPAÑA</span></div>
+    <div id="bo-credit" class="clip credit" data-start="0" data-duration="3" data-track-index="4" data-layout-ignore>Foto: Fernando · CC BY-SA 4.0 · Wikimedia Commons</div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#bo-cam", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.16, ease: "power2.out" }, 0);
+    tl.fromTo("#bo-cam", { scale: 1.0 }, { scale: 1.07, duration: 2.95, ease: "sine.inOut" }, 0);
+    tl.fromTo("#bo-label-in", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power4.out" }, 0.12);
+    // closing title, per letter, lands by ~7.95 s and holds to the end
+    tl.fromTo(["#bo-c1", "#bo-c2", "#bo-c3", "#bo-c4"], { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.22, stagger: 0.1, ease: "power3.out" }, 0.55);
+    tl.fromTo("#bo-kicker-in", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power4.out" }, 0.92);
+    window.__timelines["botines"] = tl;
+  </script>
+</template>

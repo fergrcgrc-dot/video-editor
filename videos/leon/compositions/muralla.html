@@ -1,0 +1,49 @@
+<template>
+  <style>
+      #root { position: absolute; inset: 0; overflow: hidden; background: #0b0908; font-family: "Inter", sans-serif; color: #fff; }
+      .cam { position: absolute; inset: 0; }
+      .plate { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; }
+      .label { position: absolute; left: 120px; width: 768px; top: 318px; text-align: center; }
+      .label-in { display: inline-block; padding: 14px 28px; border-radius: 999px; background: rgba(10, 8, 6, 0.62);
+        font-weight: 700; font-size: 34px; letter-spacing: 0.16em; text-transform: uppercase; }
+      .label-in .dot { display: inline-block; width: 14px; height: 14px; border-radius: 50%; background: #ffb547; margin-right: 16px; vertical-align: 4px; }
+      .label-in .w { display: inline-block; }
+      .credit { position: absolute; left: 120px; top: 1262px; font-size: 22px; font-weight: 400; color: rgba(255,255,255,0.72);
+        text-shadow: 0 1px 6px rgba(0,0,0,0.9); }
+      .hero { position: absolute; left: 120px; width: 768px; text-align: center; font-family: "League Gothic", sans-serif;
+        font-weight: 400; line-height: 0.9; letter-spacing: 0.02em; text-shadow: 0 8px 50px rgba(0,0,0,0.65), 0 2px 8px rgba(0,0,0,0.5); }
+      .hero .ch { display: inline-block; }
+      .kicker { position: absolute; left: 120px; width: 768px; text-align: center; font-weight: 700; font-size: 38px;
+        letter-spacing: 0.5em; text-indent: 0.5em; text-shadow: 0 2px 16px rgba(0,0,0,0.8); }
+      .kicker .bar { display: block; width: 120px; height: 8px; margin: 0 auto 26px; background: #ffb547; border-radius: 4px; }
+
+      #mu-title { top: 470px; font-size: 330px; }
+      #mu-kicker { top: 790px; }
+  </style>
+  <div id="root" data-composition-id="muralla" data-width="1080" data-height="1920"
+    data-composition-variables='[{"id":"mu-label","type":"string","label":"Etiqueta","default":"Muralla romana"}]'>
+    <div id="mu-cam" class="cam" data-layout-allow-overflow>
+      <img id="mu-img" class="clip plate" src="assets/muralla.jpg" data-start="0" data-duration="3" data-track-index="0" alt="Muralla romana de León" />
+    </div>
+    <h1 id="mu-title" class="clip hero" data-start="0" data-duration="3" data-track-index="1"><span id="mu-title-in">LEÓN</span></h1>
+    <div id="mu-kicker" class="clip kicker" data-start="0" data-duration="3" data-track-index="2"><span id="mu-kicker-in"><span class="bar"></span>ESPAÑA</span></div>
+    <div id="mu-label" class="clip label" data-start="1" data-duration="2" data-track-index="3">
+      <span id="mu-label-in" class="label-in"><span class="dot"></span><span id="mu-l1" class="w">Muralla</span> <span id="mu-l2" class="w">romana</span></span>
+    </div>
+    <div id="mu-credit" class="clip credit" data-start="0" data-duration="3" data-track-index="4" data-layout-ignore>Foto: Rafa Esteve · CC BY-SA 4.0 · Wikimedia Commons</div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // slow push on the plate
+    tl.fromTo("#mu-cam", { scale: 1.0, y: 0, filter: "blur(0px)" }, { scale: 1.08, duration: 2.72, ease: "sine.inOut" }, 0);
+    // kicker arrives after the hook title is already on screen
+    tl.fromTo("#mu-kicker-in", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power4.out" }, 0.35);
+    // label per word, cued on "Dos mil años"
+    tl.fromTo(["#mu-l1", "#mu-l2"], { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, stagger: 0.067, ease: "power4.out" }, 1.08);
+    tl.fromTo("#mu-label-in .dot", { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(1.6)" }, 1.0);
+    // exit: text blurs out, then the plate whips up
+    tl.to(["#mu-title-in", "#mu-kicker-in", "#mu-label-in"], { opacity: 0, filter: "blur(8px)", duration: 0.18, ease: "power2.in" }, 2.66);
+    tl.to("#mu-cam", { y: -420, filter: "blur(18px)", duration: 0.24, ease: "power3.in" }, 2.74);
+    window.__timelines["muralla"] = tl;
+  </script>
+</template>

@@ -1,0 +1,43 @@
+<template>
+  <style>
+      #root { position: absolute; inset: 0; overflow: hidden; background: #0b0908; font-family: "Inter", sans-serif; color: #fff; }
+      .cam { position: absolute; inset: 0; }
+      .plate { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; }
+      .label { position: absolute; left: 120px; width: 768px; top: 318px; text-align: center; }
+      .label-in { display: inline-block; padding: 14px 28px; border-radius: 999px; background: rgba(10, 8, 6, 0.62);
+        font-weight: 700; font-size: 34px; letter-spacing: 0.16em; text-transform: uppercase; }
+      .label-in .dot { display: inline-block; width: 14px; height: 14px; border-radius: 50%; background: #ffb547; margin-right: 16px; vertical-align: 4px; }
+      .label-in .w { display: inline-block; }
+      .credit { position: absolute; left: 120px; top: 1262px; font-size: 22px; font-weight: 400; color: rgba(255,255,255,0.72);
+        text-shadow: 0 1px 6px rgba(0,0,0,0.9); }
+      .hero { position: absolute; left: 120px; width: 768px; text-align: center; font-family: "League Gothic", sans-serif;
+        font-weight: 400; line-height: 0.9; letter-spacing: 0.02em; text-shadow: 0 8px 50px rgba(0,0,0,0.65), 0 2px 8px rgba(0,0,0,0.5); }
+      .hero .ch { display: inline-block; }
+      .kicker { position: absolute; left: 120px; width: 768px; text-align: center; font-weight: 700; font-size: 38px;
+        letter-spacing: 0.5em; text-indent: 0.5em; text-shadow: 0 2px 16px rgba(0,0,0,0.8); }
+      .kicker .bar { display: block; width: 120px; height: 8px; margin: 0 auto 26px; background: #ffb547; border-radius: 4px; }
+
+      #ta-flash { position: absolute; inset: 0; background: #fff6e0; }
+  </style>
+  <div id="root" data-composition-id="tapas" data-width="1080" data-height="1920"
+    data-composition-variables='[{"id":"ta-label","type":"string","label":"Etiqueta","default":"Barrio Húmedo"}]'>
+    <div id="ta-cam" class="cam" data-layout-allow-overflow>
+      <img id="ta-img" class="clip plate" src="assets/humedo.jpg" data-start="0" data-duration="2" data-track-index="0" alt="Barrio Húmedo, León" />
+    </div>
+    <div id="ta-label" class="clip label" data-start="0.25" data-duration="1.75" data-track-index="1">
+      <span id="ta-label-in" class="label-in"><span class="dot"></span><span id="ta-l1" class="w">Barrio</span> <span id="ta-l2" class="w">Húmedo</span></span>
+    </div>
+    <div id="ta-credit" class="clip credit" data-start="0" data-duration="2" data-track-index="2" data-layout-ignore>Foto: Javier Villasclaras · CC BY 3.0 · Wikimedia Commons</div>
+    <div id="ta-flash" class="clip" data-start="0" data-duration="0.5" data-track-index="3" data-layout-ignore></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#ta-flash", { opacity: 1 }, { opacity: 0, duration: 0.42, ease: "power2.out" }, 0);
+    tl.fromTo("#ta-cam", { scale: 1.12, opacity: 1, filter: "blur(0px)" }, { scale: 1.02, duration: 1.8, ease: "power2.out" }, 0);
+    tl.fromTo("#ta-label-in", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power4.out" }, 0.25);
+    // exit: blur swap onto the next stage
+    tl.to("#ta-label-in", { opacity: 0, duration: 0.12, ease: "power2.in" }, 1.7);
+    tl.to("#ta-cam", { opacity: 0, filter: "blur(8px)", duration: 0.17, ease: "power2.in" }, 1.8);
+    window.__timelines["tapas"] = tl;
+  </script>
+</template>

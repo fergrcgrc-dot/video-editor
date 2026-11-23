@@ -1,0 +1,47 @@
+<template>
+  <style>
+      #root { position: absolute; inset: 0; overflow: hidden; background: #0b0908; font-family: "Inter", sans-serif; color: #fff; }
+      .cam { position: absolute; inset: 0; }
+      .plate { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; }
+      .label { position: absolute; left: 120px; width: 768px; top: 318px; text-align: center; }
+      .label-in { display: inline-block; padding: 14px 28px; border-radius: 999px; background: rgba(10, 8, 6, 0.62);
+        font-weight: 700; font-size: 34px; letter-spacing: 0.16em; text-transform: uppercase; }
+      .label-in .dot { display: inline-block; width: 14px; height: 14px; border-radius: 50%; background: #ffb547; margin-right: 16px; vertical-align: 4px; }
+      .label-in .w { display: inline-block; }
+      .credit { position: absolute; left: 120px; top: 1262px; font-size: 22px; font-weight: 400; color: rgba(255,255,255,0.72);
+        text-shadow: 0 1px 6px rgba(0,0,0,0.9); }
+      .hero { position: absolute; left: 120px; width: 768px; text-align: center; font-family: "League Gothic", sans-serif;
+        font-weight: 400; line-height: 0.9; letter-spacing: 0.02em; text-shadow: 0 8px 50px rgba(0,0,0,0.65), 0 2px 8px rgba(0,0,0,0.5); }
+      .hero .ch { display: inline-block; }
+      .kicker { position: absolute; left: 120px; width: 768px; text-align: center; font-weight: 700; font-size: 38px;
+        letter-spacing: 0.5em; text-indent: 0.5em; text-shadow: 0 2px 16px rgba(0,0,0,0.8); }
+      .kicker .bar { display: block; width: 120px; height: 8px; margin: 0 auto 26px; background: #ffb547; border-radius: 4px; }
+
+      #ca-glow { position: absolute; inset: 0; opacity: 0;
+        background: radial-gradient(ellipse 70% 45% at 50% 22%, #fff6e0 0%, rgba(255, 214, 140, 0.85) 45%, rgba(255, 181, 71, 0.55) 100%); }
+  </style>
+  <div id="root" data-composition-id="catedral" data-width="1080" data-height="1920"
+    data-composition-variables='[{"id":"ca-label","type":"string","label":"Etiqueta","default":"Catedral · siglo XIII"}]'>
+    <div id="ca-cam" class="cam" data-layout-allow-overflow>
+      <img id="ca-img" class="clip plate" src="assets/vidriera.jpg" data-start="0" data-duration="2" data-track-index="0" alt="Vidrieras de la Catedral de León" />
+    </div>
+    <div id="ca-label" class="clip label" data-start="0.2" data-duration="1.8" data-track-index="1">
+      <span id="ca-label-in" class="label-in"><span class="dot"></span><span id="ca-l1" class="w">Catedral</span> <span id="ca-l2" class="w">·</span> <span id="ca-l3" class="w">siglo</span> <span id="ca-l4" class="w">XIII</span></span>
+    </div>
+    <div id="ca-credit" class="clip credit" data-start="0" data-duration="2" data-track-index="2" data-layout-ignore>Foto: Zarateman · CC0 · Wikimedia Commons</div>
+    <div id="ca-glow" class="clip" data-start="0" data-duration="2" data-track-index="3" data-layout-ignore></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // whip arrival: lands blurred, sharpens
+    tl.fromTo("#ca-cam", { y: 420, scale: 1.04, filter: "blur(18px)" }, { y: 0, filter: "blur(0px)", duration: 0.32, ease: "expo.out" }, 0);
+    tl.fromTo("#ca-cam", { scale: 1.04 }, { scale: 1.1, duration: 1.68, ease: "sine.inOut", immediateRender: false }, 0.3);
+    tl.fromTo(["#ca-l1", "#ca-l2", "#ca-l3", "#ca-l4"], { color: "rgba(255,255,255,0.25)" }, { color: "#ffffff", duration: 0.12, stagger: 0.08, ease: "power2.out" }, 0.28);
+    tl.fromTo("#ca-label-in", { opacity: 0 }, { opacity: 1, duration: 0.15, ease: "power2.out" }, 0.2);
+    // "luz": light floods in, ends in a white frame that the next scene opens from
+    tl.fromTo("#ca-glow", { opacity: 0 }, { opacity: 0.4, duration: 0.3, ease: "power2.inOut" }, 1.28);
+    tl.to("#ca-label-in", { opacity: 0, filter: "blur(8px)", duration: 0.16, ease: "power2.in" }, 1.6);
+    tl.to("#ca-glow", { opacity: 1, duration: 0.36, ease: "power3.in" }, 1.6);
+    window.__timelines["catedral"] = tl;
+  </script>
+</template>
